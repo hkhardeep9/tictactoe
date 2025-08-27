@@ -10,4 +10,28 @@ public class Player {
         this.name = name;
         this.type = type;
     }
+
+    public char getSymbol() {
+        return symbol;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public PlayerType getType() {
+        return type;
+    }
+
+    public void setSymbol(char symbol) {
+        this.symbol = symbol;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setType(PlayerType type) {
+        this.type = type;
+    }
 }
