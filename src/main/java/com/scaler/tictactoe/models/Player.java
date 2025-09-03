@@ -5,7 +5,7 @@ public class Player {
     private String name;
     private PlayerType type;
 
-    public Player(char symbol, String name, PlayerType type){
+    public Player(String name,char symbol, PlayerType type){
         this.symbol = symbol;
         this.name = name;
         this.type = type;

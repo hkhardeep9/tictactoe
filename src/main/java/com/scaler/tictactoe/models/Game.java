@@ -17,7 +17,7 @@ public class Game {
     private Player winner;
     int dimension;
 
-    private Game(){
+    private Game(Builder builder){
     }
 
     public void setBoard(Board board) {
@@ -40,6 +40,17 @@ public class Game {
         this.nextPlayerIndex = nextPlayerIndex;
     }
 
+    public GameStatus getGameStatus() {
+        return gameStatus;
+    }
+
+    public void undo(){}
+    public void displayBoard(){
+
+    }
+    public void makeNextMove(){}
+
+
     public void setGameWinningStrategy(GameWinningStrategy gameWinningStrategy) {
         this.gameWinningStrategy = gameWinningStrategy;
     }
@@ -55,7 +66,9 @@ public class Game {
     public void setWinner(Player winner) {
         this.winner = winner;
     }
-
+    public static Builder getBuilder(){
+        return new Builder();
+    }
     public static class Builder{
         private int dimension;
         private List<Player> players;
@@ -92,7 +105,7 @@ public class Game {
             game.setPlayers(players);
             game.setMoves(new ArrayList<>());
             game.setBoard(new Board(dimension));
-            game.setNextPlayerIndex(0);
+            game.setNextPlayerIndex(-1);
             game.setGameWinningStrategy(new OrderOneGameWinningStrategy());
 
             return game;
