@@ -32,4 +32,8 @@ public class GameController {
     public void executeNewMove(Game game){
         game.makeNextMove();
     }
+
+    public Player getWinner(Game game){
+        return game.getWinner();
+    }
 }

@@ -17,7 +17,11 @@ public class Game {
     private Player winner;
     int dimension;
 
-    private Game(Builder builder){
+    public GameWinningStrategy getGameWinningStrategy() {
+        return gameWinningStrategy;
+    }
+
+    private Game(){
     }
 
     public void setBoard(Board board) {
@@ -46,9 +50,30 @@ public class Game {
 
     public void undo(){}
     public void displayBoard(){
-
+        this.board.display();
     }
-    public void makeNextMove(){}
+    public void makeNextMove(){
+        Player currentPlayer = players.get(nextPlayerIndex);
+        System.out.println("It is " + currentPlayer.getSymbol() + "'s turn");
+        Move move = currentPlayer.decideMove(this.board);
+        //Validate move
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+        System.out.println("Move happend at row : " + row + ", column" + col);
+        board.getBoard().get(row).get(col).setCellState(CellState.FILLED);
+        board.getBoard().get(row).get(col).setPlayer(currentPlayer);
+        Move finalMove = new Move(currentPlayer,board.getBoard().get(row).get(col));
+        move.getCell().setCellState(CellState.FILLED);
+
+        this.moves.add(finalMove);
+        if(!gameWinningStrategy.checkWinner(board,currentPlayer,finalMove.getCell())){
+            gameStatus = GameStatus.ENDED;
+            winner = currentPlayer;
+        }
+
+        nextPlayerIndex += 1;
+        nextPlayerIndex %= players.size();
+    }
 
 
     public void setGameWinningStrategy(GameWinningStrategy gameWinningStrategy) {
@@ -105,8 +130,8 @@ public class Game {
             game.setPlayers(players);
             game.setMoves(new ArrayList<>());
             game.setBoard(new Board(dimension));
-            game.setNextPlayerIndex(-1);
-            game.setGameWinningStrategy(new OrderOneGameWinningStrategy());
+            game.setNextPlayerIndex(0);
+            game.setGameWinningStrategy(new OrderOneGameWinningStrategy(dimension));
 
             return game;
         }
